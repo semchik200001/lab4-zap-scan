@@ -1,0 +1,4 @@
+.DS_Store
+report/__pycache__/
+report/report.html
+tmp/
