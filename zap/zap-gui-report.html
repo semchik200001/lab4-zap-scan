@@ -1,0 +1,3003 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title> Lab4 ZAP Report</title>
+<style type="text/css">
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #000;
+	font-size: 13px;
+}
+
+h1 {
+	text-align: center;
+	font-weight: bold;
+	font-size: 32px
+}
+
+h3 {
+	font-size: 16px;
+}
+
+table {
+	border: none;
+	font-size: 13px;
+}
+
+td, th {
+	padding: 3px 4px;
+	word-break: break-word;
+}
+
+th {
+	font-weight: bold;
+	background-color: #666666;
+}
+
+td {
+	background-color: #e8e8e8;
+}
+
+.spacer {
+	margin: 10px;
+}
+
+.spacer-lg {
+	margin: 40px;
+}
+
+.indent1 {
+	padding: 4px 20px;
+}
+
+.indent2 {
+	padding: 4px 40px;
+}
+
+.risk-3 {
+	background-color: red;
+	color: #FFF;
+}
+
+.risk-2 {
+	background-color: orange;
+	color: #FFF;
+}
+
+.risk-1 {
+	background-color: yellow;
+	color: #000;
+}
+
+.risk-0 {
+	background-color: blue;
+	color: #FFF;
+}
+
+.risk--1 {
+	background-color: green;
+	color: #FFF;
+}
+
+.summary {
+	width: 45%;
+}
+
+.summary th {
+	color: #FFF;
+}
+
+.summary100 {
+	width: 100%;
+}
+
+.summary80 {
+	width: 80%;
+}
+
+.tdconstrainer {
+	width: 9.1%;
+	padding: 0
+}
+
+.alerts {
+	width: 75%;
+}
+
+.alerts th {
+	color: #FFF;
+}
+
+.results {
+	width: 100%;
+}
+
+.results th {
+	text-align: left;
+}
+
+.left-header {
+	display: inline-block;
+}
+
+.pass {
+	background: green;
+	color: white
+}
+
+.pass::before {
+	content: '\2714';
+	color: white
+}
+
+.fail {
+	background: red;
+	color: white
+}
+
+.fail::before {
+	content: '\2716';
+	color: white
+}
+
+.alert-3b::before {
+	content: '\2691';
+	color: red
+}
+
+.alert-2b::before {
+	content: '\2691 ';
+	color: orange
+}
+
+.alert-1b::before {
+	content: '\2691';
+	color: yellow
+}
+
+.alert-0b::before {
+	content: '\2691';
+	color: blue
+}
+
+.alert-3a::after {
+	content: '\2691';
+	color: red
+}
+
+.alert-2a::after {
+	content: '\2691 ';
+	color: orange
+}
+
+.alert-1a::after {
+	content: '\2691';
+	color: yellow
+}
+
+.alert-0a::after {
+	content: '\2691';
+	color: blue
+}
+
+.lm2 {
+	margin-left: 2em;
+}
+
+.smallnote {
+	font-size: 0.75em
+}
+
+.alwayswhite {
+	color: white
+}
+</style>
+</head>
+<body>
+	<h1>
+		<!-- The ZAP by Checkmark Logo -->
+		<img
+			src="data:image/png;base64,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"
+			alt="" />
+		 Lab4 ZAP Report
+	</h1>
+	<p />
+	
+
+	<h2>
+		
+		Сайт: http://localhost:3000 
+		
+	</h2>
+
+	<h3>
+		Создано вс, 18 окт. 2026 16:20:40 
+	</h3>
+
+	<h3>
+		ZAP Version: 2.17.0
+	</h3>
+
+	<h4>
+		ZAP by <a href="https://checkmarx.com/">Checkmarx</a>
+	</h4>
+
+	
+		<h3 class="left-header">Сводка предупреждений </h3>
+		<table class="summary">
+			<tr>
+				<th width="45%"
+					height="24">Уровень риска</th>
+				<th width="55%"
+					align="center">Количество предупреждений </th>
+			</tr>
+			<tr>
+				<td class="risk-3">
+					<div>Высокий</div>
+				</td>
+				<td align="center">
+					<div>1</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="risk-2">
+					<div>Средний</div>
+				</td>
+				<td align="center">
+					<div>4</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="risk-1">
+					<div>Низкий</div>
+				</td>
+				<td align="center">
+					<div>3</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="risk-0">
+					<div>Информационный</div>
+				</td>
+				<td align="center">
+					<div>3</div>
+				</td>
+			</tr>
+			
+		</table>
+		<div class="spacer-lg"></div>
+	
+	
+	
+		<h3 class="left-header">Insights</h3>
+		<table class="summary100">
+			<tr>
+				<th height="24">Level</th>
+				<th>Reason</th>
+				<th>Site</th>
+				<th>Description</th>
+				<th>Statistic</th>
+			</tr>
+			
+				<tr>
+				<td class="risk-1">
+					<div>Low</div>
+				</td>
+				<td>
+					<div>Warning</div>
+				</td>
+				<td>
+					<div></div>
+				</td>
+				<td>
+					<div>ZAP warnings logged - see the zap.log file for details</div>
+				</td>
+				<td align="center">
+					<div>5   </div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-1">
+					<div>Low</div>
+				</td>
+				<td>
+					<div>Exceeded High</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of responses with status code 4xx</div>
+				</td>
+				<td align="center">
+					<div>54 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of responses with status code 1xx</div>
+				</td>
+				<td align="center">
+					<div>1 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of responses with status code 2xx</div>
+				</td>
+				<td align="center">
+					<div>33 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of responses with status code 3xx</div>
+				</td>
+				<td align="center">
+					<div>8 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of responses with status code 5xx</div>
+				</td>
+				<td align="center">
+					<div>3 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type application/javascript</div>
+				</td>
+				<td align="center">
+					<div>8 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type application/json</div>
+				</td>
+				<td align="center">
+					<div>7 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type application/octet-stream</div>
+				</td>
+				<td align="center">
+					<div>4 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type font/woff2</div>
+				</td>
+				<td align="center">
+					<div>1 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type image/jpeg</div>
+				</td>
+				<td align="center">
+					<div>10 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type image/png</div>
+				</td>
+				<td align="center">
+					<div>5 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type image/x-icon</div>
+				</td>
+				<td align="center">
+					<div>1 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type text/css</div>
+				</td>
+				<td align="center">
+					<div>1 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type text/html</div>
+				</td>
+				<td align="center">
+					<div>51 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type text/markdown</div>
+				</td>
+				<td align="center">
+					<div>2 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with content type text/plain</div>
+				</td>
+				<td align="center">
+					<div>2 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with method GET</div>
+				</td>
+				<td align="center">
+					<div>98 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of endpoints with method POST</div>
+				</td>
+				<td align="center">
+					<div>1 %</div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Count of total endpoints</div>
+				</td>
+				<td align="center">
+					<div>102   </div>
+				</td>
+				</tr>
+			
+				<tr>
+				<td class="risk-0">
+					<div>Info</div>
+				</td>
+				<td>
+					<div>Informational</div>
+				</td>
+				<td>
+					<div>http://localhost:3000</div>
+				</td>
+				<td>
+					<div>Percentage of slow responses</div>
+				</td>
+				<td align="center">
+					<div>2 %</div>
+				</td>
+				</tr>
+			
+		</table>
+		<div class="spacer-lg"></div>
+	
+
+	
+		
+			<h3>Summary of Sequences</h3>
+			<p class="smallnote">For each step: result (Pass/Fail) - risk (of highest alert(s) for the step, if any).</p>
+
+			
+				</table>
+			
+		
+	</th:block>
+
+	
+		<h3>Оповещения</h3>
+		<table class="alerts">
+			<tr>
+				<th width="60%" height="24">Название</th>
+				<th width="20%"
+					align="center">Уровень риска</th>
+				<th width="20%"
+					align="center">Количество экземпляров </th>
+			</tr>
+			<tr>
+				<td><a href="#40018">SQL-инъекция</a></td>
+				<td align="center" class="risk-3">Высокий</td>
+				
+				
+				<td align="center">1</td>
+				
+			</tr>
+			<tr>
+				<td><a href="#10038">Заголовок Content Security Policy (CSP) не задан</a></td>
+				<td align="center" class="risk-2">Средний</td>
+				
+				<td align="center">Systemic</td>
+				
+				
+			</tr>
+			<tr>
+				<td><a href="#3">Идентификатор ( ID) сеанса при перезаписи URL </a></td>
+				<td align="center" class="risk-2">Средний</td>
+				
+				<td align="center">Systemic</td>
+				
+				
+			</tr>
+			<tr>
+				<td><a href="#10098">Междоменная неправильная конфигурация </a></td>
+				<td align="center" class="risk-2">Средний</td>
+				
+				<td align="center">Systemic</td>
+				
+				
+			</tr>
+			<tr>
+				<td><a href="#10020">Отсутствует заголовок (Header) для защиты от кликджекинга </a></td>
+				<td align="center" class="risk-2">Средний</td>
+				
+				
+				<td align="center">2</td>
+				
+			</tr>
+			<tr>
+				<td><a href="#10021">Заголовок X-Content-Type-Options отсутствует </a></td>
+				<td align="center" class="risk-1">Низкий</td>
+				
+				
+				<td align="center">4</td>
+				
+			</tr>
+			<tr>
+				<td><a href="#10096">Раскрытие отметки времени  - Unix</a></td>
+				<td align="center" class="risk-1">Низкий</td>
+				
+				<td align="center">Systemic</td>
+				
+				
+			</tr>
+			<tr>
+				<td><a href="#2">Раскрытие частной ИС </a></td>
+				<td align="center" class="risk-1">Низкий</td>
+				
+				
+				<td align="center">1</td>
+				
+			</tr>
+			<tr>
+				<td><a href="#10112">Session Management Response Identified</a></td>
+				<td align="center" class="risk-0">Информационный</td>
+				
+				
+				<td align="center">1</td>
+				
+			</tr>
+			<tr>
+				<td><a href="#10027">Раскрытие информации - подозрительные комментарии </a></td>
+				<td align="center" class="risk-0">Информационный</td>
+				
+				
+				<td align="center">4</td>
+				
+			</tr>
+			<tr>
+				<td><a href="#10109">Современное веб-приложение </a></td>
+				<td align="center" class="risk-0">Информационный</td>
+				
+				<td align="center">Systemic</td>
+				
+				
+			</tr>
+		</table>
+		<div class="spacer-lg"></div>
+	
+
+	
+		<h3>Сведения об оповещении </h3>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-3"><a
+						id="40018"></a>
+						<div>Высокий</div></th>
+					<th class="risk-3">SQL-инъекция</th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>SQL injection may be possible.</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/rest/products/search?q=%27%28">http://localhost:3000/rest/products/search?q=%27%28</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/rest/products/search (q)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">q</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%">&#39;(</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">HTTP/1.1 500 Internal Server Error</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					
+					<td width="80%">1</td>
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Do not trust client side input, even if there is client side validation in place.</div>
+							<br />
+						
+							<div>In general, type check all data on the server side.</div>
+							<br />
+						
+							<div>If the application uses JDBC, use PreparedStatement or CallableStatement, with parameters passed by &#39;?&#39;</div>
+							<br />
+						
+							<div>If the application uses ASP, use ADO Command Objects with strong type checking and parameterized queries.</div>
+							<br />
+						
+							<div>If database Stored Procedures can be used, use them.</div>
+							<br />
+						
+							<div>Do *not* concatenate strings into queries in the stored procedure, or use &#39;exec&#39;, &#39;exec immediate&#39;, or equivalent functionality!</div>
+							<br />
+						
+							<div>Do not create dynamic SQL queries using simple string concatenation.</div>
+							<br />
+						
+							<div>Escape all data received from the client.</div>
+							<br />
+						
+							<div>Apply an &#39;allow list&#39; of allowed characters, or a &#39;deny list&#39; of disallowed characters in user input.</div>
+							<br />
+						
+							<div>Apply the principle of least privilege by using the least privileged database user possible.</div>
+							<br />
+						
+							<div>In particular, avoid using the &#39;sa&#39; or &#39;db-owner&#39; database users. This does not eliminate SQL injection, but minimizes its impact.</div>
+							<br />
+						
+							<div>Grant the minimum database access that is necessary for the application.</div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/89.html">89</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">19</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/40018/">40018</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-2"><a
+						id="10038"></a>
+						<div>Средний</div></th>
+					<th class="risk-2">Заголовок Content Security Policy (CSP) не задан</th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>Политика безопасности содержимого (CSP) — это дополнительный уровень безопасности, который помогает обнаруживать и смягчать определенные типы атак, включая межсайтовые сценарии (XSS) и атаки с внедрением данных. Эти атаки используются для всего: от кражи данных до порчи сайта или распространения вредоносных программ. CSP предоставляет набор стандартных HTTP-заголовков, которые позволяют владельцам веб-сайтов объявлять утвержденные источники контента, которые браузеры должны разрешить загружать на эту страницу. Охватываемые типы включают JavaScript, CSS, HTML-фреймы, шрифты, изображения и встраиваемые объекты, такие как апплеты Java. ActiveX, аудио и видео файлы.</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000">http://localhost:3000</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/ftp/coupons_2013.md.bak">http://localhost:3000/ftp/coupons_2013.md.bak</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/ftp/coupons_2013.md.bak</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/ftp/encrypt.pyc">http://localhost:3000/ftp/encrypt.pyc</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/ftp/encrypt.pyc</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/ftp/suspicious_errors.yml">http://localhost:3000/ftp/suspicious_errors.yml</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/ftp/suspicious_errors.yml</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/sitemap.xml">http://localhost:3000/sitemap.xml</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/sitemap.xml</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					<td width="80%">Systemic</td>
+					
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header.</div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP">https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP</a>
+							<br />
+						
+							<a href="https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html</a>
+							<br />
+						
+							<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>
+							<br />
+						
+							<a href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
+							<br />
+						
+							<a href="https://web.dev/articles/csp">https://web.dev/articles/csp</a>
+							<br />
+						
+							<a href="https://caniuse.com/#feat=contentsecuritypolicy">https://caniuse.com/#feat=contentsecuritypolicy</a>
+							<br />
+						
+							<a href="https://content-security-policy.com/">https://content-security-policy.com/</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/693.html">693</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">15</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10038/">10038</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-2"><a
+						id="3"></a>
+						<div>Средний</div></th>
+					<th class="risk-2">Идентификатор ( ID) сеанса при перезаписи URL </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>Перезапись URL используется для отслеживания идентификатора сеанса пользователя. </div>
+							<br />
+						
+							<div>Идентификатор сеанса может быть раскрыт через заголовок межсайтового реферера. </div>
+							<br />
+						
+							<div>Кроме того, идентификатор сеанса может храниться в истории браузера или журналах сервера. </div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F865Y&amp;sid=PjvD7qMsYXJQ78qhAAAC">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F865Y&amp;sid=PjvD7qMsYXJQ78qhAAAC</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">sid</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">PjvD7qMsYXJQ78qhAAAC</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Z_&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Z_&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">sid</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">XFIQJVQDdZmJCbwLAAAA</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=websocket&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=websocket&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,transport)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">sid</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">XFIQJVQDdZmJCbwLAAAA</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Zz&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Zz&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)(40)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">sid</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">XFIQJVQDdZmJCbwLAAAA</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85d7&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85d7&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)(42[&quot;notification received&quot;,&quot;8d2072c6b0a4...)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">sid</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">XFIQJVQDdZmJCbwLAAAA</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					<td width="80%">Systemic</td>
+					
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Для безопасного содержимого поместите идентификатор сеанса в файл cookie. </div>
+							<br />
+						
+							<div>Для большей безопасности рассмотрите возможность использования комбинации файлов cookie и перезаписи URL. </div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://seclists.org/webappsec/2002/q4/111">https://seclists.org/webappsec/2002/q4/111</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/598.html">598</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">13</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/3/">3</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-2"><a
+						id="10098"></a>
+						<div>Средний</div></th>
+					<th class="risk-2">Междоменная неправильная конфигурация </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server.</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/assets/public/favicon_js.ico">http://localhost:3000/assets/public/favicon_js.ico</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/assets/public/favicon_js.ico</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">Access-Control-Allow-Origin: *</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Неправильная конфигурация CORS на веб-сервере разрешает междоменные запросы чтения из произвольных сторонних доменов 
+с использованием неаутентифицированных API в этом домене. 
+Однако реализации веб-браузера не разрешают произвольным третьим сторонам читать ответ от аутентифицированных API. 
+Это несколько снижает риск. 
+Эта неправильная конфигурация может быть использована злоумышленником для доступа к данным, 
+которые доступны без аутентификации, но которые используют другую форму безопасности, 
+такую как белый список IP-адресов. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/polyfills.js">http://localhost:3000/polyfills.js</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/polyfills.js</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">Access-Control-Allow-Origin: *</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Неправильная конфигурация CORS на веб-сервере разрешает междоменные запросы чтения из произвольных сторонних доменов 
+с использованием неаутентифицированных API в этом домене. 
+Однако реализации веб-браузера не разрешают произвольным третьим сторонам читать ответ от аутентифицированных API. 
+Это несколько снижает риск. 
+Эта неправильная конфигурация может быть использована злоумышленником для доступа к данным, 
+которые доступны без аутентификации, но которые используют другую форму безопасности, 
+такую как белый список IP-адресов. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/robots.txt">http://localhost:3000/robots.txt</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/robots.txt</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">Access-Control-Allow-Origin: *</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Неправильная конфигурация CORS на веб-сервере разрешает междоменные запросы чтения из произвольных сторонних доменов 
+с использованием неаутентифицированных API в этом домене. 
+Однако реализации веб-браузера не разрешают произвольным третьим сторонам читать ответ от аутентифицированных API. 
+Это несколько снижает риск. 
+Эта неправильная конфигурация может быть использована злоумышленником для доступа к данным, 
+которые доступны без аутентификации, но которые используют другую форму безопасности, 
+такую как белый список IP-адресов. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/scripts.js">http://localhost:3000/scripts.js</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/scripts.js</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">Access-Control-Allow-Origin: *</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Неправильная конфигурация CORS на веб-сервере разрешает междоменные запросы чтения из произвольных сторонних доменов 
+с использованием неаутентифицированных API в этом домене. 
+Однако реализации веб-браузера не разрешают произвольным третьим сторонам читать ответ от аутентифицированных API. 
+Это несколько снижает риск. 
+Эта неправильная конфигурация может быть использована злоумышленником для доступа к данным, 
+которые доступны без аутентификации, но которые используют другую форму безопасности, 
+такую как белый список IP-адресов. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/styles.css">http://localhost:3000/styles.css</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/styles.css</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">Access-Control-Allow-Origin: *</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Неправильная конфигурация CORS на веб-сервере разрешает междоменные запросы чтения из произвольных сторонних доменов 
+с использованием неаутентифицированных API в этом домене. 
+Однако реализации веб-браузера не разрешают произвольным третьим сторонам читать ответ от аутентифицированных API. 
+Это несколько снижает риск. 
+Эта неправильная конфигурация может быть использована злоумышленником для доступа к данным, 
+которые доступны без аутентификации, но которые используют другую форму безопасности, 
+такую как белый список IP-адресов. </td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					<td width="80%">Systemic</td>
+					
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Убедитесь, что конфиденциальные данные недоступны без аутентификации </div>
+							<br />
+						
+							<div>(например, с помощью белого списка IP-адресов).</div>
+							<br />
+						
+							<div>Настройте HTTP-заголовок «Access-Control-Allow-Origin» для более ограниченного набора доменов </div>
+							<br />
+						
+							<div>или полностью удалите все заголовки CORS, </div>
+							<br />
+						
+							<div>чтобы разрешить веб-браузеру применять ту же политику происхождения (SOP) </div>
+							<br />
+						
+							<div>более ограничительным образом. </div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://vulncat.fortify.com/en/detail?category=HTML5&amp;subcategory=Overly%20Permissive%20CORS%20Policy">https://vulncat.fortify.com/en/detail?category=HTML5&amp;subcategory=Overly%20Permissive%20CORS%20Policy</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/264.html">264</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">14</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10098/">10098</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-2"><a
+						id="10020"></a>
+						<div>Средний</div></th>
+					<th class="risk-2">Отсутствует заголовок (Header) для защиты от кликджекинга </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>The response does not protect against &#39;ClickJacking&#39; attacks. It should include either Content-Security-Policy with &#39;frame-ancestors&#39; directive or X-Frame-Options.</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Zz&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Zz&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)(40)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">x-frame-options</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85d7&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85d7&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)(42[&quot;notification received&quot;,&quot;8d2072c6b0a4...)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">x-frame-options</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%"></td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					
+					<td width="80%">2</td>
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Современные веб-браузеры поддерживают Content-Security-Policy и заголовки HTTP X-Frame-Options.Убедитесь, что один из них установлен на всех веб-страницах, возвращаемых вашим сайтом/приложением.Если вы ожидаете, что страница будет обрамлена только страницами на вашем сервере (например, это часть FRAMESET), вам следует использовать SAMEORIGIN, в противном случае, если вы никогда не ожидаете, что страница будет обрамлена, вам следует использовать DENY.В качестве альтернативы рассмотрите возможность реализации директивы Content Security Policy «frame-ancestors».</div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options">https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/1021.html">1021</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">15</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10020/">10020</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-1"><a
+						id="10021"></a>
+						<div>Низкий</div></th>
+					<th class="risk-1">Заголовок X-Content-Type-Options отсутствует </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>Для заголовка Anti-MIME-Sniffing X-Content-Type-Options не задано значение «nosniff». </div>
+							<br />
+						
+							<div>Это позволяет более старым версиям Internet Explorer и Chrome выполнять MIME-сниффинг тела ответа, что может привести к интерпретации и отображению тела ответа как тип контента, </div>
+							<br />
+						
+							<div>отличный от объявленного типа контента. </div>
+							<br />
+						
+							<div>Текущая (начало 2014 г.) и устаревшая версии Firefox будут использовать объявленный тип содержимого (если он установлен), а не выполнять сниффинг MIME. </div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Z_&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Z_&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">x-content-type-options</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Эта проблема по-прежнему относится к страницам с типами ошибок (401, 403, 500 и т. д.), 
+Поскольку на эти страницы часто по-прежнему влияют проблемы с внедрением, 
+и в этом случае по-прежнему существует проблема, связанная с тем, что браузеры отслеживают страницы с их фактическим типом содержимого.
+При пороговом значении «Высокий» (&quot;High&quot;) это правило сканирования не будет предупреждать 
+об ошибках клиента или сервера. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85VA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85VA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,t,transport)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">x-content-type-options</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Эта проблема по-прежнему относится к страницам с типами ошибок (401, 403, 500 и т. д.), 
+Поскольку на эти страницы часто по-прежнему влияют проблемы с внедрением, 
+и в этом случае по-прежнему существует проблема, связанная с тем, что браузеры отслеживают страницы с их фактическим типом содержимого.
+При пороговом значении «Высокий» (&quot;High&quot;) это правило сканирования не будет предупреждать 
+об ошибках клиента или сервера. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Zz&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85Zz&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)(40)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">x-content-type-options</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Эта проблема по-прежнему относится к страницам с типами ошибок (401, 403, 500 и т. д.), 
+Поскольку на эти страницы часто по-прежнему влияют проблемы с внедрением, 
+и в этом случае по-прежнему существует проблема, связанная с тем, что браузеры отслеживают страницы с их фактическим типом содержимого.
+При пороговом значении «Высокий» (&quot;High&quot;) это правило сканирования не будет предупреждать 
+об ошибках клиента или сервера. </td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85d7&amp;sid=XFIQJVQDdZmJCbwLAAAA">http://localhost:3000/socket.io/?EIO=4&amp;transport=polling&amp;t=Q5F85d7&amp;sid=XFIQJVQDdZmJCbwLAAAA</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/socket.io/ (EIO,sid,t,transport)(42[&quot;notification received&quot;,&quot;8d2072c6b0a4...)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">x-content-type-options</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Эта проблема по-прежнему относится к страницам с типами ошибок (401, 403, 500 и т. д.), 
+Поскольку на эти страницы часто по-прежнему влияют проблемы с внедрением, 
+и в этом случае по-прежнему существует проблема, связанная с тем, что браузеры отслеживают страницы с их фактическим типом содержимого.
+При пороговом значении «Высокий» (&quot;High&quot;) это правило сканирования не будет предупреждать 
+об ошибках клиента или сервера. </td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					
+					<td width="80%">4</td>
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Убедитесь, что приложение / веб-сервер правильно задает заголовок Content-Type </div>
+							<br />
+						
+							<div>и что он устанавливает заголовок X-Content-Type-Options равным «nosniff» для всех веб-страниц.</div>
+							<br />
+						
+							<div>Если возможно, убедитесь, что конечный пользователь использует современный веб-браузер, соответствующий стандартам, который вообще не выполняет сниффинг MIME или который может быть направлен веб-приложением / веб-сервером, чтобы не выполнять сниффинг MIME. </div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85)">https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85)</a>
+							<br />
+						
+							<a href="https://owasp.org/www-community/Security_Headers">https://owasp.org/www-community/Security_Headers</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/693.html">693</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">15</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10021/">10021</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-1"><a
+						id="10096"></a>
+						<div>Низкий</div></th>
+					<th class="risk-1">Раскрытие отметки времени  - Unix</th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>A timestamp was disclosed by the application/web server. - Unix</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000">http://localhost:3000</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">1666666667</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">1666666667, which evaluates to: 2022-10-25 05:57:47.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000">http://localhost:3000</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">1839622642</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">1839622642, which evaluates to: 2028-04-18 01:17:22.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/sitemap.xml">http://localhost:3000/sitemap.xml</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/sitemap.xml</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">1666666667</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">1666666667, which evaluates to: 2022-10-25 05:57:47.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/sitemap.xml">http://localhost:3000/sitemap.xml</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/sitemap.xml</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">1839622642</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">1839622642, which evaluates to: 2028-04-18 01:17:22.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/styles.css">http://localhost:3000/styles.css</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/styles.css</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">1528301887</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">1528301887, which evaluates to: 2018-06-06 19:18:07.</td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					<td width="80%">Systemic</td>
+					
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Вручную подтвердите, что данные отметки времени не являются конфиденциальными </div>
+							<br />
+						
+							<div>и что данные не могут быть агрегированы для выявления шаблонов, </div>
+							<br />
+						
+							<div>которые можно использовать. </div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://cwe.mitre.org/data/definitions/200.html">https://cwe.mitre.org/data/definitions/200.html</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/497.html">497</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">13</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10096/">10096</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-1"><a
+						id="2"></a>
+						<div>Низкий</div></th>
+					<th class="risk-1">Раскрытие частной ИС </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>В теле ответа HTTP обнаружен частный IP-адрес (например, 10.x.x.x, 172.x.x.x, 192.168.x.x) </div>
+							<br />
+						
+							<div>или частное имя хоста Amazon EC2 (например, ip-10-0-56-78). </div>
+							<br />
+						
+							<div>Эта информация может быть полезна для дальнейших атак на внутренние системы. </div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/rest/admin/application-configuration">http://localhost:3000/rest/admin/application-configuration</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/rest/admin/application-configuration</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">192.168.99.100:3000</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">192.168.99.100:3000
+192.168.99.100:4200
+</td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					
+					<td width="80%">1</td>
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Remove the private IP address from the HTTP response body. For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.</div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://datatracker.ietf.org/doc/html/rfc1918">https://datatracker.ietf.org/doc/html/rfc1918</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/497.html">497</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">13</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/2/">2</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-0"><a
+						id="10112"></a>
+						<div>Информационный</div></th>
+					<th class="risk-0">Session Management Response Identified</th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>The given response has been identified as containing a session management token. The &#39;Other Info&#39; field contains a set of header tokens that can be used in the Header Based Session Management Method. If the request is in a context which has a Session Management Method set to &quot;Auto-Detect&quot; then this rule will change the session management to use the tokens identified.</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/rest/continue-code">http://localhost:3000/rest/continue-code</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/rest/continue-code</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%">continueCode</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">continueCode</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">json:continueCode</td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					
+					<td width="80%">1</td>
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>This is an informational alert rather than a vulnerability and so there is nothing to fix.</div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%">
+							<a href="https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/">https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/</a>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%"></td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10112/">10112</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-0"><a
+						id="10027"></a>
+						<div>Информационный</div></th>
+					<th class="risk-0">Раскрытие информации - подозрительные комментарии </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>The response appears to contain suspicious comments which may help an attacker.</div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/chunk-DAJ4olp_.js">http://localhost:3000/chunk-DAJ4olp_.js</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/chunk-DAJ4olp_.js</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">SELECT</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">The following pattern was used: \bSELECT\b and was detected in likely comment: &quot;//`)})`:e}else{let e=Is(t,(n,i)=&gt;i===p?[gt(t.children[p],!1)]:[`${i}:${gt(n,!1)}`]);return Object.keys(t.children).length===1&amp;&amp;t&quot;, see evidence field for the suspicious comment/snippet.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/chunk-eYAgyLdn.js">http://localhost:3000/chunk-eYAgyLdn.js</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/chunk-eYAgyLdn.js</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">db</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">The following pattern was used: \bDB\b and was detected in likely comment: &quot;//`).test(e)){let[,t]=e.split(/\/\/[^\/]+/);return t}return e}function ub(e){return Re(e)[ae.LocaleId]}function lb(e,n,t){let r=&quot;, see evidence field for the suspicious comment/snippet.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/hacking-instructor-BXwB7EFQ.js">http://localhost:3000/hacking-instructor-BXwB7EFQ.js</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/hacking-instructor-BXwB7EFQ.js</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">query</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">The following pattern was used: \bQUERY\b and was detected in likely comment: &quot;//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/771984076&amp;amp;color=%23ff5500&amp;amp;auto&amp;lowbar;play=true&amp;amp;h&quot;, see evidence field for the suspicious comment/snippet.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/main.js">http://localhost:3000/main.js</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/main.js</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">query</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">The following pattern was used: \bQUERY\b and was detected in likely comment: &quot;//`+e.host,typeof t==`string`&amp;&amp;(t.charAt(0)===`/`&amp;&amp;(t.charAt(1)===`/`?t=e.protocol+t:t=e.host+t),/^(https?|wss?):\/\//.test(t)||&quot;, see evidence field for the suspicious comment/snippet.</td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					
+					<td width="80%">4</td>
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Удалите все комментарии, которые возвращают информацию, </div>
+							<br />
+						
+							<div>которая может помочь злоумышленнику, </div>
+							<br />
+						
+							<div>и устраните все основные проблемы, на которые они ссылаются. </div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%"></td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"><a
+						href="https://cwe.mitre.org/data/definitions/615.html">615</a></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%">13</td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10027/">10027</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+			<table class="results">
+				<tr height="24">
+					<th width="20%" class="risk-0"><a
+						id="10109"></a>
+						<div>Информационный</div></th>
+					<th class="risk-0">Современное веб-приложение </th>
+				</tr>
+				<tr>
+					<td width="20%">Описание</td>
+					<td width="80%">
+							<div>Приложение выглядит как современное веб-приложение. </div>
+							<br />
+						
+							<div>Если вам нужно изучить его автоматически, </div>
+							<br />
+						
+							<div>то Ajax Spider может оказаться более эффективным, чем стандартный. </div>
+							
+						</td>
+				</tr>
+				<TR vAlign="top">
+					<TD colspan="2"></TD>
+				</TR>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000">http://localhost:3000</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">&lt;script&gt;
+    window.addEventListener(&quot;load&quot;, function(){
+      window.cookieconsent.initialise({
+        &quot;palette&quot;: {
+          &quot;popup&quot;: { &quot;background&quot;: &quot;var(--theme-primary)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; },
+          &quot;button&quot;: { &quot;background&quot;: &quot;var(--theme-accent)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; }
+        },
+        &quot;theme&quot;: &quot;classic&quot;,
+        &quot;position&quot;: &quot;bottom-right&quot;,
+        &quot;content&quot;: { &quot;message&quot;: &quot;This website uses fruit cookies to ensure you get the juiciest tracking experience.&quot;, &quot;dismiss&quot;: &quot;Me want it!&quot;, &quot;link&quot;: &quot;But me wait!&quot;, &quot;href&quot;: &quot;https://www.youtube.com/watch?v=9PnbKL3wuH4&quot; }
+      })});
+  &lt;/script&gt;</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Ссылки не найдены
+пока есть скрипты,
+что свидетельствует о том, что это современное веб-приложение.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/">http://localhost:3000/</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">&lt;script&gt;
+    window.addEventListener(&quot;load&quot;, function(){
+      window.cookieconsent.initialise({
+        &quot;palette&quot;: {
+          &quot;popup&quot;: { &quot;background&quot;: &quot;var(--theme-primary)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; },
+          &quot;button&quot;: { &quot;background&quot;: &quot;var(--theme-accent)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; }
+        },
+        &quot;theme&quot;: &quot;classic&quot;,
+        &quot;position&quot;: &quot;bottom-right&quot;,
+        &quot;content&quot;: { &quot;message&quot;: &quot;This website uses fruit cookies to ensure you get the juiciest tracking experience.&quot;, &quot;dismiss&quot;: &quot;Me want it!&quot;, &quot;link&quot;: &quot;But me wait!&quot;, &quot;href&quot;: &quot;https://www.youtube.com/watch?v=9PnbKL3wuH4&quot; }
+      })});
+  &lt;/script&gt;</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Ссылки не найдены
+пока есть скрипты,
+что свидетельствует о том, что это современное веб-приложение.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/juice-shop/build/routes/fileServer.js:68:18">http://localhost:3000/juice-shop/build/routes/fileServer.js:68:18</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/juice-shop/build/routes/fileServer.js:68:18</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">&lt;script&gt;
+    window.addEventListener(&quot;load&quot;, function(){
+      window.cookieconsent.initialise({
+        &quot;palette&quot;: {
+          &quot;popup&quot;: { &quot;background&quot;: &quot;var(--theme-primary)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; },
+          &quot;button&quot;: { &quot;background&quot;: &quot;var(--theme-accent)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; }
+        },
+        &quot;theme&quot;: &quot;classic&quot;,
+        &quot;position&quot;: &quot;bottom-right&quot;,
+        &quot;content&quot;: { &quot;message&quot;: &quot;This website uses fruit cookies to ensure you get the juiciest tracking experience.&quot;, &quot;dismiss&quot;: &quot;Me want it!&quot;, &quot;link&quot;: &quot;But me wait!&quot;, &quot;href&quot;: &quot;https://www.youtube.com/watch?v=9PnbKL3wuH4&quot; }
+      })});
+  &lt;/script&gt;</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Ссылки не найдены
+пока есть скрипты,
+что свидетельствует о том, что это современное веб-приложение.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/juice-shop/node_modules/express/lib/router/layer.js:95:5">http://localhost:3000/juice-shop/node_modules/express/lib/router/layer.js:95:5</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/juice-shop/node_modules/express/lib/router/layer.js:95:5</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">&lt;script&gt;
+    window.addEventListener(&quot;load&quot;, function(){
+      window.cookieconsent.initialise({
+        &quot;palette&quot;: {
+          &quot;popup&quot;: { &quot;background&quot;: &quot;var(--theme-primary)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; },
+          &quot;button&quot;: { &quot;background&quot;: &quot;var(--theme-accent)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; }
+        },
+        &quot;theme&quot;: &quot;classic&quot;,
+        &quot;position&quot;: &quot;bottom-right&quot;,
+        &quot;content&quot;: { &quot;message&quot;: &quot;This website uses fruit cookies to ensure you get the juiciest tracking experience.&quot;, &quot;dismiss&quot;: &quot;Me want it!&quot;, &quot;link&quot;: &quot;But me wait!&quot;, &quot;href&quot;: &quot;https://www.youtube.com/watch?v=9PnbKL3wuH4&quot; }
+      })});
+  &lt;/script&gt;</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Ссылки не найдены
+пока есть скрипты,
+что свидетельствует о том, что это современное веб-приложение.</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL-адрес</td>
+						<td width="80%"><a href="http://localhost:3000/sitemap.xml">http://localhost:3000/sitemap.xml</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:3000/sitemap.xml</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Метод</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Параметр </td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Атака</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Свидетельство </td>
+						<td width="80%">&lt;script&gt;
+    window.addEventListener(&quot;load&quot;, function(){
+      window.cookieconsent.initialise({
+        &quot;palette&quot;: {
+          &quot;popup&quot;: { &quot;background&quot;: &quot;var(--theme-primary)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; },
+          &quot;button&quot;: { &quot;background&quot;: &quot;var(--theme-accent)&quot;, &quot;text&quot;: &quot;var(--theme-text)&quot; }
+        },
+        &quot;theme&quot;: &quot;classic&quot;,
+        &quot;position&quot;: &quot;bottom-right&quot;,
+        &quot;content&quot;: { &quot;message&quot;: &quot;This website uses fruit cookies to ensure you get the juiciest tracking experience.&quot;, &quot;dismiss&quot;: &quot;Me want it!&quot;, &quot;link&quot;: &quot;But me wait!&quot;, &quot;href&quot;: &quot;https://www.youtube.com/watch?v=9PnbKL3wuH4&quot; }
+      })});
+  &lt;/script&gt;</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Дополнительная информация </td>
+						<td width="80%">Ссылки не найдены
+пока есть скрипты,
+что свидетельствует о том, что это современное веб-приложение.</td>
+					</tr>
+				
+				<tr>
+					<td width="20%">Экземпляры </td>
+					
+					<td width="80%">Systemic</td>
+					
+					
+				</tr>
+				<tr>
+					<td width="20%">Решение </td>
+					<td width="80%">
+							<div>Это информационное предупреждение, поэтому никаких изменений не требуется. </div>
+							
+						</td>
+				</tr>
+				<tr>
+					<td width="20%">Ссылка </td>
+					<td width="80%"></td>
+				</tr>
+				<tr>
+					<td width="20%">CWE Идентификатор</td>
+					<td width="80%"></td>
+				</tr>
+				<tr>
+					<td width="20%">WASC ID</td>
+					<td width="80%"></td>
+				</tr>
+				<tr>
+					<td width="20%">Идентификатор плагина </td>
+					<td width="80%"><a
+						href="https://www.zaproxy.org/docs/alerts/10109/">10109</a></td>
+				</tr>
+			</table>
+			<div class="spacer"></div>
+		
+	
+
+	
+		
+			<h3>Sequence Details</h3>
+			<sup>With the associated active scan results.</sup>
+
+			
+
+			<div class="spacer-lg"></div>
+
+		
+	
+
+</body>
+</html>
+
